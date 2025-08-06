@@ -1,0 +1,12 @@
+[project]
+name = "adv-attack"
+version = "0.1.0"
+description = "Simple adversarial attack library"
+requires-python = ">=3.8"
+dependencies = [
+    "torch",
+    "torchvision", 
+    "numpy",
+    "pillow",
+    "matplotlib",
+]
