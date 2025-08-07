@@ -82,5 +82,4 @@ adv_attack/
 │       └── utils.py       # Image utilities
 ├── demo.py               # Command-line demo script
 ├── imagenet_class_index.json  # ImageNet class names
-└── tests/
 ```
