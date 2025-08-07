@@ -1,5 +1,5 @@
 import sys
-from adv_attack import ResNet50Wrapper, pgd_attack, load_image, tensor_to_pil, compute_perturbation_metrics
+from adv_attack import ResNet50Wrapper, pgd_attack, load_image, tensor_to_pil, compute_perturbation_metrics, get_imagenet_class_name
 
 def main():
     """
@@ -34,9 +34,12 @@ def main():
         print(f"Error loading image: {e}")
         sys.exit(1)
     
-    original_class = model.classify(image)
-    print(f"Original prediction: Class {original_class}")
+    original_class, original_class_name = model.classify(image)
+    print(f"Original prediction: Class {original_class} ({original_class_name})")
     
+    target_name = get_imagenet_class_name(target_class)
+    print(f"Target class: {target_class} ({target_name})")
+
     if not (0 <= target_class <= 999):
         print(f"Error: Target class {target_class} must be between 0-999 for ImageNet")
         sys.exit(1)
@@ -54,8 +57,8 @@ def main():
         random_start=True   
     )
     
-    adversarial_class = model.classify(adversarial_image)
-    print(f"Adversarial prediction: Class {adversarial_class}")
+    adversarial_class, adversarial_class_name = model.classify(adversarial_image)
+    print(f"Adversarial prediction: Class {adversarial_class} ({adversarial_class_name})")
     
     if adversarial_class == target_class:
         print("Attack succeeded! Model fooled into predicting target class.")
