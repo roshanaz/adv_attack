@@ -11,17 +11,12 @@ A simple library for generating adversarial examples against ResNet50 using PGD 
 git clone git@github.com:roshanaz/adv_attack.git
 cd adv_attack
 uv sync
-#uv pip install -e . # make sure to include . to install from current directory
 ```
 
 ## Usage
 
-### **demo**
 ```python
-"""
-Simple demonstration of the adversarial attack library.
-"""
-uv run examples/demo.py test_image.jpg 285 adversarial_image.jpg
+uv run demo.py test_image.jpg 285 adversarial_image.jpg
 ```
 
 
