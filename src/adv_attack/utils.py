@@ -4,7 +4,38 @@ from PIL import Image
 import matplotlib.pyplot as plt
 import torchvision.transforms as transforms
 from typing import Union, Tuple
+import json
+import os
 
+def get_imagenet_class_name(class_id: int) -> str:
+    """
+    Get ImageNet class name from class ID.
+    
+    Args:
+        class_id: ImageNet class ID (0-999)
+        
+    Returns:
+        Human-readable class name
+    """
+    try:
+        json_path = "imagenet_class_index.json"
+        if not os.path.exists(json_path):
+            json_path = os.path.join(os.path.dirname(__file__), "..", "..", "imagenet_class_index.json")
+        
+        with open(json_path, 'r') as f:
+            data = json.load(f)
+        
+        class_info = data.get(str(class_id))
+        if class_info:
+            class_name = class_info[1].replace('_', ' ')
+            return class_name
+        else:
+            return f"Class {class_id}"
+            
+    except (FileNotFoundError, json.JSONDecodeError, KeyError):
+        return f"Class {class_id}"
+
+    
 def load_image(image_path: str, size: Tuple[int, int] = (224, 224)) -> torch.Tensor:
     """
     Load image from path and convert to tensor.

@@ -2,6 +2,7 @@ import torch
 import torch.nn as nn
 import torchvision.models as models
 import torchvision.transforms as transforms
+from adv_attack.utils import get_imagenet_class_name
 
 # ImageNet normalization constants
 IMAGENET_MEAN = [0.485, 0.456, 0.406]
@@ -57,8 +58,9 @@ class ResNet50Wrapper:
         with torch.no_grad():  # No gradients needed for classification
             logits = self.model(preprocessed)
             predicted_class = torch.argmax(logits, dim=1).item()
-            
-        return predicted_class
+        
+        class_name = get_imagenet_class_name(predicted_class)
+        return predicted_class, class_name
     
     def get_logits_with_gradients(self, image: torch.Tensor) -> torch.Tensor:
         """

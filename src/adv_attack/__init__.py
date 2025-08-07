@@ -4,6 +4,7 @@ __version__ = "0.1.0"
 from .models import ResNet50Wrapper
 from .attack import pgd_attack
 from .utils import (
+    get_imagenet_class_name,
     load_image,
     tensor_to_pil,
     compute_perturbation_metrics,
@@ -15,6 +16,7 @@ from .utils import (
 __all__ = [
     'ResNet50Wrapper',
     'pgd_attack', 
+    'get_imagenet_class_name',
     'load_image',
     'tensor_to_pil',
     'compute_perturbation_metrics',
