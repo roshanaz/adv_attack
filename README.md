@@ -19,6 +19,21 @@ uv sync
 uv run demo.py test_image.jpg 285 adversarial_image.jpg
 ```
 
+## Example of output
+```bash
+Original prediction: Class 282 (tiger cat)
+Target class: 291 (lion)
+Adversarial prediction: Class 291 (lion)
+Attack succeeded! Model fooled into predicting target class.
+Perturbation Metrics:
+l_inf norm: 0.007184
+L2 norm: 1.943249
+Mean absolute change: 0.004423
+Max pixel change: 1.8/255 (in original scale)
+Perturbation within imperceptible range
+
+Saved adversarial image to adversarial_image.jpg
+```
 
 ## Directory Structure Created:
 ```

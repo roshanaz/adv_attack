@@ -92,7 +92,5 @@ def main():
         print(f"Error saving image: {e}")
         sys.exit(1)
     
-    print("\nDemo completed successfully!")
-
 if __name__ == "__main__":
     main()
