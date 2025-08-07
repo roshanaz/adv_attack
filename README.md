@@ -8,7 +8,10 @@ A simple library for generating adversarial examples against ResNet50 using PGD 
 ## Installation
 
 ```bash
+git clone git@github.com:roshanaz/adv_attack.git
+cd adv_attack
 uv sync
+#uv pip install -e . # make sure to include . to install from current directory
 ```
 
 ## Usage
@@ -18,18 +21,9 @@ uv sync
 """
 Simple demonstration of the adversarial attack library.
 """
-
-# TODO: Create example usage
+uv run examples/demo.py test_image.jpg 285 adversarial_image.jpg
 ```
 
-### **test**
-```python
-"""
-Basic tests for the attack functionality.
-"""
-
-# TODO: Add basic tests
-```
 
 ## Directory Structure Created:
 ```
@@ -42,8 +36,7 @@ adv_attack/
 │       ├── attack.py
 │       ├── models.py
 │       └── utils.py
-├── examples/
-│ 
+├── demo.py
 └── tests/
     
 ```

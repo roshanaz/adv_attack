@@ -2,6 +2,8 @@ import torch
 import torch.nn.functional as F
 from typing import Optional
 from .models import ResNet50Wrapper
+from PIL import Image
+import torchvision.transforms as transforms
 
 def pgd_attack(
      model: ResNet50Wrapper,
@@ -30,14 +32,16 @@ def pgd_attack(
         # Add uniform random noise
         noise = torch.empty_like(adversarial).uniform_(-epsilon, epsilon)
         adversarial = adversarial + noise
-        adversarial = torch.clamp(adversarial, 0, 1)
     
     target = torch.tensor([target_class], device=model.device)
     
     for iteration in range(num_iterations):
         adversarial = _pgd_step(model, adversarial, original, target, alpha, epsilon)
     
-    return adversarial
+    adversarial_denormalized = _denormalize_imagenet(adversarial)
+    adversarial_denormalized = torch.clamp(adversarial_denormalized, 0, 1)
+
+    return adversarial_denormalized
 
 def _pgd_step(
     model: ResNet50Wrapper,
@@ -76,9 +80,24 @@ def _pgd_step(
     perturbation = torch.clamp(perturbation, -epsilon, epsilon)
     adversarial = original + perturbation
     
-    # clamp to valid image range
-    adversarial = torch.clamp(adversarial, 0, 1)
-    
     adversarial = adversarial.detach()
     
     return adversarial
+
+def _denormalize_imagenet(tensor: torch.Tensor) -> torch.Tensor:
+    """
+    Denormalize ImageNet normalized tensor back to [0, 1] range.
+    """
+    mean = torch.tensor([0.485, 0.456, 0.406]).view(3, 1, 1)
+    std = torch.tensor([0.229, 0.224, 0.225]).view(3, 1, 1)
+    
+    mean = mean.to(tensor.device)
+    std = std.to(tensor.device)
+    
+    if tensor.dim() == 4:
+        tensor = tensor.squeeze(0)
+    
+    # Denormalize: original = normalized * std + mean
+    denormalized = tensor * std + mean
+    
+    return torch.clamp(denormalized, 0, 1)
