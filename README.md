@@ -35,7 +35,6 @@ Then in Python:
 ```python
 from adv_attack import ResNet50Wrapper, pgd_attack, load_image, tensor_to_pil
 
-# Load model
 model = ResNet50Wrapper()
 
 # Load and classify original image
