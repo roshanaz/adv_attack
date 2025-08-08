@@ -7,6 +7,12 @@ A simple library for generating adversarial examples against ResNet50 using PGD 
 
 ## Installation
 
+better to install python and use that to run the code in case the user doesn't have the right version of python, to do that:
+```bash
+uv python install 3.10 ## always use -p 3.10 when running python
+```
+
+
 ```bash
 git clone <repository-url>
 cd adv_attack
@@ -15,21 +21,14 @@ uv sync
 
 ## Usage
 
-### Testing the Package
-```bash
-uv run simple_test.py
-```
-
 ### Quick run 
 ```bash
-uv run demo.py test_image.jpg 285 adversarial_image.jpg
+uv run -p 3.10 demo.py test_image.jpg 285 adversarial_image.jpg
 ```
 
 ### Interactive Python/IPython
 ```bash
-uv sync
-uv pip install -e .
-uv run python  # Important: Use UV's Python, NOT system python!
+uv run -p 3.10 python  # Important: Use UV's Python, NOT system python!
 ```
 
 Then in Python:
@@ -59,9 +58,7 @@ adversarial_pil.save("adversarial_output.jpg")
 
 ### Jupyter Notebook
 ```bash
-uv sync
-uv add jupyter
-uv run jupyter notebook  # Use UV's jupyter
+uv run -p 3.10 jupyter notebook  # Use UV's jupyter
 ```
 
 ### Important Notes
