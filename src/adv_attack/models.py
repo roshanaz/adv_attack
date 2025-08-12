@@ -45,22 +45,30 @@ class ResNet50Wrapper:
             
         return self.normalize(image)
     
-    def classify(self, image: torch.Tensor) -> int:
+    def classify(self, image: torch.Tensor) -> tuple[int, str, float]:
         """
-        Classify image and return predicted class ID.
+        Classify image and return predicted class ID, name, and confidence.
         
         Args:
             image: RGB image tensor in range [0, 1]
-            predicted_class: Predicted class ID (0-999 for ImageNet)
+            
+        Returns:
+            tuple: (class_id, class_name, confidence)
+                - class_id: Predicted class ID (0-999 for ImageNet)
+                - class_name: Human-readable class name  
+                - confidence: Prediction confidence (0.0 to 1.0)
         """
         preprocessed = self.preprocess(image)
         
         with torch.no_grad():  # No gradients needed for classification
             logits = self.model(preprocessed)
-            predicted_class = torch.argmax(logits, dim=1).item()
+            probabilities = torch.softmax(logits, dim=1)
+            confidence, class_id = torch.max(probabilities, dim=1)
+            confidence = confidence.item()
+            class_id = class_id.item()
         
-        class_name = get_imagenet_class_name(predicted_class)
-        return predicted_class, class_name
+        class_name = get_imagenet_class_name(class_id)
+        return class_id, class_name, confidence
     
     def get_logits_with_gradients(self, image: torch.Tensor) -> torch.Tensor:
         """

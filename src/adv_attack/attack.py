@@ -40,7 +40,7 @@ def pgd_attack(
     
     adversarial_denormalized = _denormalize_imagenet(adversarial)
     adversarial_denormalized = torch.clamp(adversarial_denormalized, 0, 1)
-
+    
     return adversarial_denormalized
 
 def _pgd_step(

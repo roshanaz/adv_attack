@@ -34,8 +34,8 @@ def main():
         print(f"Error loading image: {e}")
         sys.exit(1)
     
-    original_class, original_class_name = model.classify(image)
-    print(f"Original prediction: Class {original_class} ({original_class_name})")
+    original_class, original_class_name, original_confidence = model.classify(image)
+    print(f"Original prediction: Class {original_class} ({original_class_name}) - confidence: {original_confidence:.3f}")
     
     target_name = get_imagenet_class_name(target_class)
     print(f"Target class: {target_class} ({target_name})")
@@ -57,8 +57,8 @@ def main():
         random_start=True   
     )
     
-    adversarial_class, adversarial_class_name = model.classify(adversarial_image)
-    print(f"Adversarial prediction: Class {adversarial_class} ({adversarial_class_name})")
+    adversarial_class, adversarial_class_name, adv_confidence = model.classify(adversarial_image)
+    print(f"Adversarial prediction: Class {adversarial_class} ({adversarial_class_name}) - confidence: {adv_confidence:.3f}")
     
     if adversarial_class == target_class:
         print("Attack succeeded! Model fooled into predicting target class.")
