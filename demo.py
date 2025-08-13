@@ -1,5 +1,11 @@
 import sys
 from adv_attack import ResNet50Wrapper, pgd_attack, load_image, tensor_to_pil, compute_perturbation_metrics, get_imagenet_class_name
+import matplotlib.pyplot as plt
+import numpy as np
+import torch
+import os
+
+from adv_attack import visualize_perturbation
 
 def main():
     """
@@ -83,6 +89,22 @@ def main():
         print("Perturbation within imperceptible range")
     else:
         print("Perturbation may be visible to humans")
+    
+    # Generate perturbation visualization
+    print("\nGenerating perturbation visualization...")
+    perturbation = visualize_perturbation(
+        original=image,
+        adversarial=adversarial_image,
+        input_filename=input_path,
+        output_filename=output_path,
+        amplify_factor=15.0
+    )
+
+    # Additional perturbation statistics
+    print(f"\nDetailed Perturbation Analysis:")
+    print(f"Perturbation range: [{torch.min(perturbation):.6f}, {torch.max(perturbation):.6f}]")
+    print(f"Pixels with zero change: {(perturbation == 0).sum().item()} / {perturbation.numel()}")
+    print(f"Pixels at epsilon bound: {(torch.abs(perturbation) >= (8/255 - 1e-6)).sum().item()}")
     
     try:
         adversarial_pil = tensor_to_pil(adversarial_image)

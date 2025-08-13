@@ -9,7 +9,9 @@ from .utils import (
     tensor_to_pil,
     compute_perturbation_metrics,
     l_infinity_norm,
-    l2_norm
+    l2_norm,
+    visualize_perturbation,
+    tensor_to_numpy_image
 )
 
 # Main exports for easy usage
@@ -21,5 +23,7 @@ __all__ = [
     'tensor_to_pil',
     'compute_perturbation_metrics',
     'l_infinity_norm',
-    'l2_norm'
+    'l2_norm',
+    'visualize_perturbation',
+    'tensor_to_numpy_image'
 ]
